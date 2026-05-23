@@ -317,10 +317,7 @@ p {
 .deck-wave {
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.18rem;
+  display: block;
   width: min(32rem, 90%);
   min-height: 5.2rem;
   padding: 0;
@@ -328,26 +325,34 @@ p {
   overflow: hidden;
 }
 
-.deck-wave i {
+.deck-wave svg {
   display: block;
-  width: 0.5rem;
-  height: 0.16rem;
-  border-radius: 999px;
-  background: currentColor;
-  opacity: 0.7;
-  transform-origin: center;
+  width: 100%;
+  height: 5.2rem;
+  overflow: visible;
 }
 
-.audio-deck.is-playing .deck-wave {
-  background: transparent;
-  box-shadow: none;
+.deck-wave path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 4;
 }
 
-.audio-deck.is-playing .deck-wave i {
-  height: var(--bar-height);
+.wave-flat {
+  opacity: 0.72;
+}
+
+.wave-ripple {
+  opacity: 0;
+}
+
+.audio-deck.is-playing .wave-flat {
+  opacity: 0;
+}
+
+.audio-deck.is-playing .wave-ripple {
   opacity: 0.95;
-  animation: wave-line 780ms ease-in-out infinite;
-  animation-delay: calc(var(--bar-index) * -37ms);
 }
 
 .sr-only {
@@ -362,20 +367,6 @@ p {
   border: 0;
 }
 
-@keyframes wave-line {
-  0%,
-  100% {
-    transform: scaleY(0.12);
-  }
-
-  35% {
-    transform: scaleY(1);
-  }
-
-  65% {
-    transform: scaleY(0.42);
-  }
-}
 
 .prompt-panel {
   display: grid;

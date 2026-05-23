@@ -718,17 +718,24 @@ function AudioDeck({
     <button className={`audio-deck ${accent} ${active ? "is-playing" : ""}`} onClick={togglePlayback}>
       <span className="deck-title">{title}</span>
       <span className="deck-wave" aria-hidden="true">
-        {Array.from({ length: 42 }).map((_, index) => (
-          <i
-            key={index}
-            style={
-              {
-                "--bar-height": `${1.25 + (index % 9) * 0.34}rem`,
-                "--bar-index": index,
-              } as React.CSSProperties
-            }
-          />
-        ))}
+        <svg viewBox="0 0 600 90" focusable="false">
+          <path className="wave-flat" d="M12 45 H588" />
+          <path
+            className="wave-ripple"
+            d="M12 45 C70 45 78 45 116 45 S176 45 222 45 S286 45 338 45 S420 45 468 45 S542 45 588 45"
+          >
+            <animate
+              attributeName="d"
+              dur="1.45s"
+              repeatCount="indefinite"
+              values="
+                M12 45 C70 45 78 45 116 45 S176 45 222 45 S286 45 338 45 S420 45 468 45 S542 45 588 45;
+                M12 45 C62 24 88 24 126 45 S184 66 226 45 S288 24 338 45 S414 66 466 45 S540 24 588 45;
+                M12 45 C64 66 92 66 128 45 S184 24 226 45 S292 66 340 45 S414 24 466 45 S540 66 588 45;
+                M12 45 C70 45 78 45 116 45 S176 45 222 45 S286 45 338 45 S420 45 468 45 S542 45 588 45"
+            />
+          </path>
+        </svg>
       </span>
       <span className="sr-only">
         {active ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
