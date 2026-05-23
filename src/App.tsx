@@ -629,7 +629,6 @@ function App() {
           accent="cyan"
           active={playback === "original"}
           title="원본 음원"
-          track={question.track.title}
           onPause={stopPlayback}
           onPlay={() => startPlayback("original")}
         />
@@ -637,7 +636,6 @@ function App() {
           accent="amber"
           active={playback === "processed"}
           title="효과 적용 음원"
-          track={`${clipStart}s - ${clipEnd}s`}
           onPause={stopPlayback}
           onPlay={() => startPlayback("processed")}
         />
@@ -701,14 +699,12 @@ function AudioDeck({
   onPause,
   onPlay,
   title,
-  track,
 }: {
   accent: "cyan" | "amber";
   active: boolean;
   onPause: () => void;
   onPlay: () => void;
   title: string;
-  track: string;
 }) {
   const togglePlayback = () => {
     if (active) {
@@ -720,10 +716,7 @@ function AudioDeck({
 
   return (
     <button className={`audio-deck ${accent} ${active ? "is-playing" : ""}`} onClick={togglePlayback}>
-      <div>
-        <span>{title}</span>
-        <strong>{track}</strong>
-      </div>
+      <span className="deck-title">{title}</span>
       <span className="deck-action">
         {active ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
         {active ? "멈춤" : "재생"}

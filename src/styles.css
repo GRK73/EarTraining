@@ -265,9 +265,10 @@ p {
 
 .audio-deck {
   display: grid;
-  grid-template-columns: 1fr 8rem;
-  gap: 1rem;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
   align-items: center;
+  gap: 0.8rem;
   min-height: 10.8rem;
   padding: 1.1rem;
   overflow: hidden;
@@ -275,7 +276,7 @@ p {
   width: 100%;
   color: inherit;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   transition:
     border-color 160ms ease,
     transform 160ms ease,
@@ -301,7 +302,7 @@ p {
   position: absolute;
   inset: auto 1.1rem 1rem 1.1rem;
   height: 4rem;
-  opacity: 0.35;
+  opacity: 0.22;
   background:
     repeating-linear-gradient(
       90deg,
@@ -319,35 +320,29 @@ p {
   color: var(--amber);
 }
 
-.audio-deck > div > span,
-.audio-deck strong {
+.deck-title {
+  position: relative;
+  z-index: 1;
   display: block;
-}
-
-.audio-deck > div > span {
   color: currentColor;
-  font-size: 1rem;
-  font-weight: 780;
-}
-
-.audio-deck strong {
-  margin-top: 0.45rem;
-  color: var(--text);
-  font-size: clamp(1.3rem, 3vw, 2.1rem);
-  line-height: 1.05;
+  font-size: 1.05rem;
+  font-weight: 820;
 }
 
 .deck-action {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
-  gap: 0.4rem;
-  min-height: 5.4rem;
-  border: 1px solid color-mix(in srgb, currentColor 55%, var(--line));
+  gap: 0.55rem;
+  min-width: 9rem;
+  min-height: 6rem;
+  border: 0;
   border-radius: 8px;
-  background: rgba(9, 14, 16, 0.82);
+  background: color-mix(in srgb, currentColor 12%, rgba(9, 14, 16, 0.7));
   color: currentColor;
-  cursor: pointer;
-  font-weight: 800;
+  font-size: 1.15rem;
+  font-weight: 850;
   text-align: center;
 }
 
