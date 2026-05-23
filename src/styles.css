@@ -272,6 +272,28 @@ p {
   padding: 1.1rem;
   overflow: hidden;
   position: relative;
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.audio-deck:hover {
+  transform: translateY(-2px);
+}
+
+.audio-deck.cyan:hover,
+.audio-deck.cyan.is-playing {
+  border-color: rgba(53, 214, 207, 0.72);
+}
+
+.audio-deck.amber:hover,
+.audio-deck.amber.is-playing {
+  border-color: rgba(247, 185, 77, 0.72);
 }
 
 .audio-deck::before {
@@ -297,12 +319,12 @@ p {
   color: var(--amber);
 }
 
-.audio-deck span,
+.audio-deck > div > span,
 .audio-deck strong {
   display: block;
 }
 
-.audio-deck span {
+.audio-deck > div > span {
   color: currentColor;
   font-size: 1rem;
   font-weight: 780;
@@ -315,7 +337,7 @@ p {
   line-height: 1.05;
 }
 
-.audio-deck button {
+.deck-action {
   display: grid;
   place-items: center;
   gap: 0.4rem;
@@ -326,6 +348,12 @@ p {
   color: currentColor;
   cursor: pointer;
   font-weight: 800;
+  text-align: center;
+}
+
+.audio-deck.is-playing .deck-action {
+  background: color-mix(in srgb, currentColor 18%, rgba(9, 14, 16, 0.82));
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 35%, transparent);
 }
 
 .prompt-panel {

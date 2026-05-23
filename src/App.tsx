@@ -710,17 +710,25 @@ function AudioDeck({
   title: string;
   track: string;
 }) {
+  const togglePlayback = () => {
+    if (active) {
+      onPause();
+      return;
+    }
+    onPlay();
+  };
+
   return (
-    <article className={`audio-deck ${accent}`}>
+    <button className={`audio-deck ${accent} ${active ? "is-playing" : ""}`} onClick={togglePlayback}>
       <div>
         <span>{title}</span>
         <strong>{track}</strong>
       </div>
-      <button onClick={active ? onPause : onPlay}>
+      <span className="deck-action">
         {active ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
         {active ? "멈춤" : "재생"}
-      </button>
-    </article>
+      </span>
+    </button>
   );
 }
 
