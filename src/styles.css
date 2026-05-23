@@ -320,34 +320,34 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  width: min(30rem, 92%);
-  min-height: 6.4rem;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  background: color-mix(in srgb, currentColor 7%, rgba(9, 14, 16, 0.55));
+  gap: 0.18rem;
+  width: min(32rem, 90%);
+  min-height: 5.2rem;
+  padding: 0;
+  background: transparent;
   overflow: hidden;
 }
 
 .deck-wave i {
   display: block;
-  width: 0.22rem;
-  height: var(--bar-height);
+  width: 0.5rem;
+  height: 0.16rem;
   border-radius: 999px;
   background: currentColor;
-  opacity: 0.45;
+  opacity: 0.7;
   transform-origin: center;
 }
 
 .audio-deck.is-playing .deck-wave {
-  background: color-mix(in srgb, currentColor 18%, rgba(9, 14, 16, 0.82));
-  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 35%, transparent);
+  background: transparent;
+  box-shadow: none;
 }
 
 .audio-deck.is-playing .deck-wave i {
+  height: var(--bar-height);
   opacity: 0.95;
-  animation: wave-dance 760ms ease-in-out infinite;
-  animation-delay: calc(var(--bar-index) * -42ms);
+  animation: wave-line 780ms ease-in-out infinite;
+  animation-delay: calc(var(--bar-index) * -37ms);
 }
 
 .sr-only {
@@ -362,18 +362,18 @@ p {
   border: 0;
 }
 
-@keyframes wave-dance {
+@keyframes wave-line {
   0%,
   100% {
-    transform: scaleY(0.48);
+    transform: scaleY(0.12);
   }
 
-  45% {
-    transform: scaleY(1.18);
+  35% {
+    transform: scaleY(1);
   }
 
-  70% {
-    transform: scaleY(0.72);
+  65% {
+    transform: scaleY(0.42);
   }
 }
 
