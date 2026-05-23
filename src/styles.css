@@ -464,6 +464,45 @@ button:disabled {
   gap: 0.75rem;
 }
 
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.amount-choice {
+  display: grid;
+  gap: 0.45rem;
+  min-height: 6rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(9, 14, 16, 0.58);
+  cursor: pointer;
+  text-align: left;
+  padding: 0.9rem;
+}
+
+.amount-choice span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+
+.amount-choice strong {
+  color: var(--text);
+  font-size: clamp(1.45rem, 3vw, 2.3rem);
+  line-height: 1;
+}
+
+.amount-choice.selected {
+  border-color: rgba(53, 214, 207, 0.65);
+  background: var(--cyan-soft);
+}
+
+.amount-choice.selected strong {
+  color: var(--cyan);
+}
+
 .choice-grid button {
   display: flex;
   align-items: center;
@@ -662,6 +701,7 @@ button:disabled {
   }
 
   .difficulty-grid,
+  .option-grid,
   .choice-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -683,6 +723,7 @@ button:disabled {
   }
 
   .difficulty-grid,
+  .option-grid,
   .choice-grid,
   .prompt-panel,
   .audio-deck,

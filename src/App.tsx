@@ -43,6 +43,7 @@ type Question = {
   track: Track;
   clipStart: number | null;
   effects: EffectSetting[];
+  amountChoices: number[];
 };
 
 type AudioGraph = {
@@ -191,6 +192,20 @@ const randomAmount = (definition: EffectDefinition) => {
   return Number((definition.min + Math.floor(Math.random() * (steps + 1)) * definition.step).toFixed(2));
 };
 
+const amountValues = (definition: EffectDefinition) => {
+  const steps = Math.round((definition.max - definition.min) / definition.step);
+  return Array.from({ length: steps + 1 }, (_, index) => Number((definition.min + index * definition.step).toFixed(2)));
+};
+
+const createAmountChoices = (definition: EffectDefinition, correctAmount: number) => {
+  const candidates = amountValues(definition).filter(
+    (value) => Math.abs(value - correctAmount) > definition.beginnerTolerance,
+  );
+  const distractors = shuffle(candidates).slice(0, 3);
+  const fallback = shuffle(amountValues(definition).filter((value) => value !== correctAmount)).slice(0, 3 - distractors.length);
+  return shuffle([correctAmount, ...distractors, ...fallback]).slice(0, 4);
+};
+
 const chooseClipStart = (duration: number) => {
   if (!Number.isFinite(duration)) return 0;
   const maxStart = Math.max(0, duration - clipLength - 1);
@@ -209,14 +224,17 @@ const createQuestion = (difficulty: Difficulty, id: number): Question => {
         : 1;
 
   const selected = shuffle(effects).slice(0, count);
+  const selectedSettings = selected.map((effect) => ({
+    id: effect.id,
+    amount: randomAmount(effect),
+  }));
+
   return {
     id,
     track,
     clipStart: null,
-    effects: selected.map((effect) => ({
-      id: effect.id,
-      amount: randomAmount(effect),
-    })),
+    effects: selectedSettings,
+    amountChoices: createAmountChoices(effectMap[selectedSettings[0].id], selectedSettings[0].amount),
   };
 };
 
@@ -398,7 +416,11 @@ function App() {
 
   const resetAnswers = (nextDifficulty: Difficulty, nextQuestion: Question) => {
     const firstEffect = nextQuestion.effects[0].id;
-    setSingleAnswer(createDefaultSingleAnswer(nextDifficulty === "beginner" ? firstEffect : effects[0].id));
+    if (nextDifficulty === "beginner") {
+      setSingleAnswer({ effectId: firstEffect, amount: nextQuestion.amountChoices[0] });
+    } else {
+      setSingleAnswer(createDefaultSingleAnswer(effects[0].id));
+    }
     setAdvancedAnswer(new Set());
     setExpertAnswer(createExpertAnswer());
   };
@@ -634,6 +656,7 @@ function App() {
         {difficulty === "beginner" ? (
           <SingleAmountAnswer
             answer={singleAnswer}
+            choices={question.amountChoices}
             fixedEffectId={targetEffect.id}
             onChange={setSingleAnswer}
           />
@@ -703,10 +726,12 @@ function AudioDeck({
 
 function SingleAmountAnswer({
   answer,
+  choices,
   fixedEffectId,
   onChange,
 }: {
   answer: SingleAnswer;
+  choices: number[];
   fixedEffectId: EffectId;
   onChange: (answer: SingleAnswer) => void;
 }) {
@@ -720,11 +745,23 @@ function SingleAmountAnswer({
           <p>{definition.description}</p>
         </div>
       </div>
-      <AmountSlider
-        amount={answer.amount}
-        effectId={fixedEffectId}
-        onChange={(amount) => onChange({ effectId: fixedEffectId, amount })}
-      />
+      <div className="option-grid" role="radiogroup" aria-label="객관식 선택">
+        {choices.map((amount) => (
+          <button
+            aria-checked={answer.amount === amount}
+            className={`amount-choice ${answer.amount === amount ? "selected" : ""}`}
+            key={amount}
+            role="radio"
+            onClick={() => onChange({ effectId: fixedEffectId, amount })}
+          >
+            <span>객관식 선택</span>
+            <strong>
+              {amount}
+              {definition.unit}
+            </strong>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
