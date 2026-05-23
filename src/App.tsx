@@ -717,7 +717,20 @@ function AudioDeck({
   return (
     <button className={`audio-deck ${accent} ${active ? "is-playing" : ""}`} onClick={togglePlayback}>
       <span className="deck-title">{title}</span>
-      <span className="deck-action">
+      <span className="deck-wave" aria-hidden="true">
+        {Array.from({ length: 42 }).map((_, index) => (
+          <i
+            key={index}
+            style={
+              {
+                "--bar-height": `${1.25 + (index % 9) * 0.34}rem`,
+                "--bar-index": index,
+              } as React.CSSProperties
+            }
+          />
+        ))}
+      </span>
+      <span className="sr-only">
         {active ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
         {active ? "멈춤" : "재생"}
       </span>
